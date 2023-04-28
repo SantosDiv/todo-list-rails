@@ -12,17 +12,18 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     begin
       @task.save!
-      redirect_to tasks_path, notice: "Tarefa criada com sucesso", status: :ok
+      redirect_to tasks_path, notice: "Tarefa criada com sucesso", status: :created
     rescue => exception
       redirect_to new_task_path, alert: exception.message, status: :bad_request
     end
   end
 
   def update
-    if @task.update(task_params)
-      redirect_to tasks_path, notice: "Tarefa atualizada com sucesso", status: :ok
-    else
-      render :index, alert: "Ocorre um erro ao atualizar a tarefa", status: :bad_request
+    begin
+      @task.update(task_params)
+      redirect_to tasks_path, notice: "Tarefa atualizada com sucesso", status: :updated
+    rescue => exception
+      redirect_to tasks_path, alert: "Ocorre um erro ao atualizar a tarefa", status: :bad_request
     end
   end
 
@@ -37,7 +38,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task - Task.find(params[:id])
+    @task = Task.find(params[:id])
   end
 
   def task_params
