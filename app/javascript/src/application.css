@@ -26,6 +26,7 @@ body {
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
   padding: 2em;
   width: 70%;
+  border-radius: 10px;
 }
 
 .header-task {
@@ -44,17 +45,17 @@ body {
   color: var(--gray-500);
 }
 
-.done {
+.done-badge {
   background-color: var(--green-200);
   border: 1px solid var(--green-300);
 }
 
-.pending {
+.pending-badge {
   background-color: var(--yellow-500);
   border: 1px solid var(--yellow-700);
 }
 
-.pending, .done {
+.pending-badge, .done-badge {
   font-size: 11px;
   padding: 0.2em;
   border-radius: 5px;
@@ -62,6 +63,10 @@ body {
   margin-top: 5px;
 }
 
-.icon-done {
+.done-icon {
   color: var(--green-200);;
+}
+
+.line-through {
+  text-decoration: line-through;
 }

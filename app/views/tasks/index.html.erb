@@ -12,66 +12,42 @@
   <section class="day-section">
     <h5 class="title m-0">Today</h5>
     <section class="tasks-box p-3">
-      <article class="task-wrapper">
-        <div class="d-flex justify-content-between align-items-center task-box">
-          <div class="d-flex justify-content-between align-items-center gap-3 task">
-            <i class="bi bi-check-circle-fill fs-5 icon-done"></i>
-            <h5 class="m-0 fw-normal">Pegar crianças na escola</h5>
-            <span class="done">Concluída</span>
-          </div>
-          <div class="actions d-flex align-items-center gap-4">
-            <a href="#" class="text-secondary"><i class="bi bi-pencil-fill fs-5"></i></a>
-            <a href="#" class="text-danger fw-bold"><i class="bi bi-x-lg fs-5"></i></a>
-          </div>
-        </div>
-      </article>
-
-      <%# Task 2 %>
-      <hr>
-      <article class="task-wrapper">
-        <div class="task-container d-flex justify-content-between align-items-center mb-3">
-          <div class="d-flex justify-content-between align-items-center gap-3 task-description">
-            <i class="bi bi-check-circle-fill fs-5 text-secondary"></i>
-            <h5 class="m-0 fw-normal">Lavar roupa</h5>
-            <span class="pending">Pendente</span>
-          </div>
-          <div class="actions d-flex align-items-center gap-4">
-            <a href="#" class="text-secondary"><i class="bi bi-pencil-fill fs-5"></i></a>
-            <a href="#" class="text-danger fw-bold"><i class="bi bi-x-lg fs-5"></i></a>
-          </div>
-        </div>
-        <article class="subtasks-container">
-          <div class="subtask ps-3 pe-3 pb-2">
-            <div class="d-flex align-items-center gap-3 task-box">
-              <div class="d-flex justify-content-between align-items-center gap-3 task-description">
-                <i class="bi bi-check-circle-fill fs-6 text-secondary"></i>
-                <h5 class="m-0 fw-light fs-6">Lavar calças separadas</h5>
-                <span class="pending">Pendente</span>
-              </div>
-              <div class="actions d-flex align-items-center gap-4">
-                <a href="#" class="text-secondary"><i class="bi bi-pencil-fill fs-6"></i></a>
-                <a href="#" class="text-danger fw-bold"><i class="bi bi-x-lg fs-6"></i></a>
-              </div>
+      <% @tasks_presenters.each do |task| %>
+        <article class="task-wrapper">
+          <div class="task-container d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center gap-3 task">
+              <i class="bi bi-check-circle-fill fs-5 <%= task.status_class_icon %>"></i>
+              <h5 class="m-0 fw-normal <%= task.done? ? "line-through" : ""%>"><%= task.description %></h5>
+              <span class="<%= task.status_class_badge %>"><%= task.status_translated %></span>
+            </div>
+            <div class="actions d-flex align-items-center gap-4">
+              <a href="#" class="text-secondary"><i class="bi bi-pencil-fill fs-5"></i></a>
+              <a href="#" class="text-danger fw-bold"><i class="bi bi-x-lg fs-5"></i></a>
             </div>
           </div>
-
-          <div class="subtask ps-3 pe-3 pb-2">
-            <div class="d-flex align-items-center gap-3 task-box">
-              <div class="d-flex justify-content-between align-items-center gap-3 task-description">
-                <i class="bi bi-check-circle-fill fs-6 text-secondary"></i>
-                <h5 class="m-0 fw-light fs-6">Lavar roupas brancas separadas</h5>
-                <span class="pending">Pendente</span>
-              </div>
-              <div class="actions d-flex align-items-center gap-4">
-                <a href="#" class="text-secondary"><i class="bi bi-pencil-fill fs-6"></i></a>
-                <a href="#" class="text-danger fw-bold"><i class="bi bi-x-lg fs-6"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <button class="btn">+ Adicionar subtarefa</button>
+          <% if task.has_sub_task? %>
+            <% task.sub_tasks.each do |sub_task| %>
+              <article class="subtasks-container">
+                <div class="subtask ps-3 pe-3 pb-2">
+                  <div class="d-flex align-items-center gap-3 task-box">
+                    <div class="d-flex justify-content-between align-items-center gap-3 task-description">
+                      <i class="bi bi-check-circle-fill fs-6 <%= sub_task.status_class_icon %>"></i>
+                      <h5 class="m-0 fw-light fs-6 <%= sub_task.done? ? "line-through" : ""%>"><%= sub_task.description %></h5>
+                      <span class="<%= sub_task.status_class_badge %>"><%= sub_task.status_translated %></span>
+                    </div>
+                    <div class="actions d-flex align-items-center gap-4">
+                      <a href="#" class="text-secondary"><i class="bi bi-pencil-fill fs-6"></i></a>
+                      <a href="#" class="text-danger fw-bold"><i class="bi bi-x-lg fs-6"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn">+ Adicionar subtarefa</button>
+              </article>
+            <% end %>
+          <% end %>
         </article>
-      </article>
+        <hr>
+      <% end %>
     </section>
 
   </section>
