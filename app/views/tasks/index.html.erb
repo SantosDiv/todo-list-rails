@@ -1,0 +1,36 @@
+<main class="tasks-container">
+  <header class="header-task">
+    <div class="d-flex align-items-center">
+      <i class="bi bi-list-task fs-4 me-2 mt-1"></i>
+      <h5 class="m-0 title">Lista de Tarefas</h5>
+    </div>
+
+    <button class="btn btn-primary btn-add">Nova tarefa</button>
+  </header>
+  <hr class="mt-2">
+
+  <section class="day-section">
+    <h5 class="title m-0">Hoje</h5>
+    <section class="tasks-box p-3">
+      <% if @tasks_today_presenters.empty? %>
+        <h6 class="text-black-50 fw-normal">Nenhuma tarefa prevista</h6>
+      <% else %>
+        <% @tasks_today_presenters.each do |task| %>
+          <%= render partial: "tasks/task_wrapper", locals: { task: task } %>
+        <% end %>
+      <% end %>
+    </section>
+  </section>
+  <section class="day-section">
+    <h5 class="title m-0">Amanhã</h5>
+    <section class="tasks-box p-3">
+      <% if @tasks_tomorrow_presenters.empty? %>
+        <h6 class="text-black-50 fw-normal">Nenhuma tarefa prevista</h6>
+      <% else %>
+        <% @tasks_tomorrow_presenters.each do |task| %>
+          <%= render partial: "tasks/task_wrapper", locals: { task: task } %>
+        <% end %>
+      <% end %>
+    </section>
+  </section>
+</main>

@@ -1,1 +1,72 @@
 @import "bootstrap";
+
+:root {
+  --gray-500: #363636;
+  --green-300: #00D085;
+  --green-200: #00ED98;
+  --yellow-700: #A89701;
+  --yellow-500: #EDD500;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background-color: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.tasks-container {
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  padding: 2em;
+  width: 70%;
+  border-radius: 10px;
+}
+
+.header-task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-add {
+  max-width: 130px;
+  background-color: #0A79FC!important;
+}
+
+.title {
+  line-height: 1.1;
+  color: var(--gray-500);
+}
+
+.done-badge {
+  background-color: var(--green-200);
+  border: 1px solid var(--green-300);
+}
+
+.pending-badge {
+  background-color: var(--yellow-500);
+  border: 1px solid var(--yellow-700);
+}
+
+.pending-badge, .done-badge {
+  font-size: 11px;
+  padding: 0.2em;
+  border-radius: 5px;
+  color: white;
+  margin-top: 5px;
+}
+
+.done-icon {
+  color: var(--green-200);;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
