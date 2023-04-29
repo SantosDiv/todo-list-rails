@@ -49,7 +49,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:description, :date, :done)
+    params.require(:task).permit(:description, :date, :done, :parent_id)
   end
 
   def validate_params!
