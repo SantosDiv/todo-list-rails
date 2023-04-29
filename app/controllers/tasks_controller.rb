@@ -2,8 +2,16 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:update, :destroy]
 
   def index
-    @tasks = Task.only_parent.order(date: :asc)
-    @tasks_presenters = @tasks.map { |task| TaskPresenter.new(task: task) }
+    if filter_date_params
+      @tasks = Task.filter_by_date(start_date: start_date, end_date: end_date)
+      @tasks_presenters = @tasks.map { |task| TaskPresenter.new(task: task) }
+      return
+    end
+
+    @tasks_today = Task.only_today
+    @tasks_tomorrow = Task.only_tomorrow
+    @tasks_today_presenters = @tasks_today.map { |task| TaskPresenter.new(task: task) }
+    @tasks_tomorrow_presenters = @tasks_tomorrow.map { |task| TaskPresenter.new(task: task) }
   end
 
   def new
@@ -62,5 +70,17 @@ class TasksController < ApplicationController
       end
       true
     end
+  end
+
+  def filter_date_params
+    nil
+  end
+
+  def start_date
+    filter_date_params[:date].beginning_of_day
+  end
+
+  def end_date
+    filter_date_params[:date].end_of_day
   end
 end
