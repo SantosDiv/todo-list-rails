@@ -2,7 +2,8 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:update, :destroy]
 
   def index
-    @tasks = Task.only_parent.order(:date, :asc)
+    @tasks = Task.only_parent.order(date: :asc)
+    @tasks_presenters = @tasks.map { |task| TaskPresenter.new(task: task) }
   end
 
   def new
