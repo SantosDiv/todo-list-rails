@@ -6,4 +6,8 @@ class Task < ApplicationRecord
   has_many :sub_tasks, class_name: 'Task', foreign_key: :parent_id, dependent: :destroy
 
   scope :only_parent, -> { where(parent_id: nil) }
+
+  def has_sub_task?
+    !self.sub_tasks.nil?
+  end
 end
