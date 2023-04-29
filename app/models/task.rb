@@ -21,6 +21,6 @@ class Task < ApplicationRecord
 
 
   def has_sub_task?
-    !self.sub_tasks.nil?
+    !self.sub_tasks.empty?
   end
 end
