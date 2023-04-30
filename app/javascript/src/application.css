@@ -45,6 +45,23 @@ body {
   color: var(--gray-500);
 }
 
+.btn-change-status {
+  border: 1px solid rgb(215, 215, 215);
+  background-color: transparent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  width: 25px;
+  height: 25px;
+  color: white;
+}
+
+.btn-change-status:hover {
+  background-color: rgb(215, 215, 215);
+}
+
 .done-badge {
   background-color: var(--green-200);
   border: 1px solid var(--green-300);
@@ -63,8 +80,8 @@ body {
   margin-top: 5px;
 }
 
-.done-icon {
-  color: var(--green-200);;
+.done-bg {
+  background-color: var(--green-300);
 }
 
 .line-through {

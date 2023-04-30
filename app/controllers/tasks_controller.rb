@@ -1,13 +1,7 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:update, :destroy]
+  before_action :set_task, only: [:update, :destroy, :change_status]
 
   def index
-    if filter_date_params
-      @tasks = Task.filter_by_date(start_date: start_date, end_date: end_date)
-      @tasks_presenters = @tasks.map { |task| TaskPresenter.new(task: task) }
-      return
-    end
-
     @tasks_today = Task.only_today
     @tasks_tomorrow = Task.only_tomorrow
     @tasks_today_presenters = @tasks_today.map { |task| TaskPresenter.new(task: task) }
@@ -20,10 +14,17 @@ class TasksController < ApplicationController
   def create
     begin
       @task = Task.new(task_params)
+
       @task.transaction do
         @task.save!
-        redirect_to tasks_path, success: "Tarefa criada com sucesso"
+
+        unless task_params[:parent_id].nil?
+          @task.reload
+          change_parent_status(parent: @task.parent)
+        end
       end
+
+      redirect_to tasks_path, success: "Tarefa criada com sucesso"
     rescue => exception
       redirect_to new_task_path, danger: @task.errors.full_messages.to_sentence
     end
@@ -35,8 +36,8 @@ class TasksController < ApplicationController
 
       @task.update(task_params)
       redirect_to tasks_path, success: "Tarefa atualizada com sucesso"
-    rescue => exception
-      redirect_to tasks_path, danger: "Ocorre um erro ao atualizar a tarefa"
+    rescue
+      redirect_to tasks_path, danger: "Ocorreu um erro ao atualizar a tarefa"
     end
   end
 
@@ -44,8 +45,24 @@ class TasksController < ApplicationController
     begin
       @task.destroy!
       redirect_to tasks_path, success: "Tarefa deletada com sucesso"
+    rescue
+      redirect_to tasks_path, danger: "Ocorreu um erro ao deletar a tarefa"
+    end
+  end
+
+  def change_status
+    begin
+      old_status = @task.done
+
+      @task.update(done: !old_status)
+
+      if @task.sub_task?
+        change_parent_status(parent: @task.parent)
+      end
+
+      redirect_to tasks_path
     rescue => exception
-      redirect_to tasks_path, danger: "Ocorreus um erro ao deletar a tarefa"
+      redirect_to tasks_path, danger: "Ocorreu um erro ao mudar o status da tarefa"
     end
   end
 
@@ -53,9 +70,9 @@ class TasksController < ApplicationController
 
   def set_task
     begin
-      @task = Task.find(params[:id])
+      @task = Task.find(params[:id] || params[:task_id])
     rescue ActiveRecord::RecordNotFound => exception
-      redirect_to tasks_path, alert: "Não encontramos essa a tarefa com o id passado. Tente novamente"
+      redirect_to tasks_path, alert: "Não encontramos nenhuma tarefa com este id. Tente novamente"
     end
   end
 
@@ -73,15 +90,7 @@ class TasksController < ApplicationController
     end
   end
 
-  def filter_date_params
-    nil
-  end
-
-  def start_date
-    filter_date_params[:date].beginning_of_day
-  end
-
-  def end_date
-    filter_date_params[:date].end_of_day
+  def change_parent_status(parent:)
+    parent.change_parent_status!
   end
 end
