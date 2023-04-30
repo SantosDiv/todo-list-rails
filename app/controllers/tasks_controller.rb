@@ -18,9 +18,9 @@ class TasksController < ApplicationController
       @task.transaction do
         @task.save!
 
-        if task_params[:parent_id].nil?
+        unless task_params[:parent_id].nil?
           @task.reload
-          change_status_parent(parent: @task.parent)
+          change_parent_status(parent: @task.parent)
         end
       end
 
