@@ -21,8 +21,8 @@
       <% if @tasks_today_presenters.empty? %>
         <h6 class="text-black-50 fw-normal">Nenhuma tarefa prevista</h6>
       <% else %>
-        <% @tasks_today_presenters.each do |task| %>
-          <%= render partial: "tasks/task_wrapper", locals: { task: task } %>
+        <% @tasks_today_presenters.each do |task_presenter| %>
+          <%= render partial: "tasks/task_wrapper", locals: { task_presenter: task_presenter } %>
         <% end %>
       <% end %>
     </section>
@@ -33,8 +33,8 @@
       <% if @tasks_tomorrow_presenters.empty? %>
         <h6 class="text-black-50 fw-normal">Nenhuma tarefa prevista</h6>
       <% else %>
-        <% @tasks_tomorrow_presenters.each do |task| %>
-          <%= render partial: "tasks/task_wrapper", locals: { task: task } %>
+        <% @tasks_tomorrow_presenters.each do |task_presenter| %>
+          <%= render partial: "tasks/task_wrapper", locals: { task_presenter: task_presenter } %>
         <% end %>
       <% end %>
     </section>
