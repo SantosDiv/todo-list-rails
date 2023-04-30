@@ -22,10 +22,10 @@ class TasksController < ApplicationController
       @task = Task.new(task_params)
       @task.transaction do
         @task.save!
-        redirect_to tasks_path, notice: "Tarefa criada com sucesso"
+        redirect_to tasks_path, success: "Tarefa criada com sucesso"
       end
     rescue => exception
-      redirect_to new_task_path, alert: exception.message
+      redirect_to new_task_path, danger: @task.errors.full_messages.to_sentence
     end
   end
 
@@ -34,18 +34,18 @@ class TasksController < ApplicationController
       validate_params!
 
       @task.update(task_params)
-      redirect_to tasks_path, notice: "Tarefa atualizada com sucesso"
+      redirect_to tasks_path, success: "Tarefa atualizada com sucesso"
     rescue => exception
-      redirect_to tasks_path, alert: "Ocorre um erro ao atualizar a tarefa"
+      redirect_to tasks_path, danger: "Ocorre um erro ao atualizar a tarefa"
     end
   end
 
   def destroy
     begin
       @task.destroy!
-      redirect_to tasks_path, notice: "Tarefa deletada com sucesso"
+      redirect_to tasks_path, success: "Tarefa deletada com sucesso"
     rescue => exception
-      redirect_to tasks_path, alert: "Ocorreus um erro ao deletar a tarefa"
+      redirect_to tasks_path, danger: "Ocorreus um erro ao deletar a tarefa"
     end
   end
 
