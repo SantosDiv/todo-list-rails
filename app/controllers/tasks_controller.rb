@@ -20,10 +20,12 @@ class TasksController < ApplicationController
   def create
     begin
       @task = Task.new(task_params)
-      @task.save!
-      redirect_to tasks_path, notice: "Tarefa criada com sucesso", status: :created
+      @task.transaction do
+        @task.save!
+        redirect_to tasks_path, success: "Tarefa criada com sucesso"
+      end
     rescue => exception
-      redirect_to new_task_path, alert: exception.message, status: :bad_request
+      redirect_to new_task_path, danger: @task.errors.full_messages.to_sentence
     end
   end
 
@@ -32,18 +34,18 @@ class TasksController < ApplicationController
       validate_params!
 
       @task.update(task_params)
-      redirect_to tasks_path, notice: "Tarefa atualizada com sucesso", status: :ok
+      redirect_to tasks_path, success: "Tarefa atualizada com sucesso"
     rescue => exception
-      redirect_to tasks_path, alert: "Ocorre um erro ao atualizar a tarefa", status: :bad_request
+      redirect_to tasks_path, danger: "Ocorre um erro ao atualizar a tarefa"
     end
   end
 
   def destroy
     begin
       @task.destroy!
-      redirect_to tasks_path, notice: "Tarefa deletada com sucesso", status: :ok
+      redirect_to tasks_path, success: "Tarefa deletada com sucesso"
     rescue => exception
-      redirect_to tasks_path, alert: "Ocorreus um erro ao deletar a tarefa", status: :bad_request
+      redirect_to tasks_path, danger: "Ocorreus um erro ao deletar a tarefa"
     end
   end
 
@@ -53,19 +55,18 @@ class TasksController < ApplicationController
     begin
       @task = Task.find(params[:id])
     rescue ActiveRecord::RecordNotFound => exception
-      redirect_to tasks_path, alert: "Não encontramos essa a tarefa com o id passado. Tente novamente", status: :bad_request
+      redirect_to tasks_path, alert: "Não encontramos essa a tarefa com o id passado. Tente novamente"
     end
   end
 
   def task_params
-    params.require(:task).permit(:description, :date, :done, :parent_id)
+    params.permit(:description, :date, :done, :parent_id)
   end
 
   def validate_params!
     required_params = [:description, :done]
-
     required_params.each do |required_param|
-      if params.dig(:task, required_param).nil? || params.dig(:task, required_param).empty?
+      if params[required_param].nil? || params[required_param].empty?
         raise "O parâmetro #{required_param} é obrigatório"
       end
       true

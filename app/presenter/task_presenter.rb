@@ -7,6 +7,10 @@ class TaskPresenter
     @task.description
   end
 
+  def task_id
+    @task.id
+  end
+
   def done?
     @task.done
   end

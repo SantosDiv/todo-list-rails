@@ -1,0 +1,39 @@
+<main class="tasks-container">
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %> alert-dismissible fade show" role="alert">
+        <%= value %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+  <header class="header-task">
+    <div class="d-flex align-items-center">
+      <i class="bi bi-list-task fs-4 me-2 mt-1"></i>
+      <% if params[:parent_id] %>
+        <h5 class="m-0 title">Nova sub-tarefa</h5>
+      <% else %>
+        <h5 class="m-0 title">Nova Tarefa</h5>
+      <% end %>
+    </div>
+    <%= link_to 'Voltar', tasks_path, class: "btn btn-primary" %>
+  </header>
+  <hr class="mt-2">
+
+  <%= form_with url: tasks_path, local: true do |form| %>
+    <%= form.hidden_field :parent_id, value: params[:parent_id] %>
+    <div class="row">
+      <div class="col-auto">
+        <%= form.label "Titulo", for: :description, class: "form-label" %>
+        <%= form.text_field :description, placeholder: "Buscar crianças na escola",  class: "form-control", required: true %>
+      </div>
+      <div class="col-auto">
+        <%= form.label "Data da tarefa", for: :date, class: "form-label" %>
+        <%= form.date_field :date, class: "form-control"%>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-auto">
+        <%= form.submit "Criar", class: "form-control btn btn-primary"%>
+      </div>
+    </div>
+  <% end %>
+</main>
