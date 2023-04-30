@@ -1,0 +1,9 @@
+<%= form_with url: task_change_status_path(task_presenter.task_id), local: true, method: :put do |form| %>
+  <button type="submit" class="btn-change-status <%= task_presenter.done? ? "done-bg" : "" %>">
+    <% if task_presenter.done? %>
+      <i class="bi bi-check"></i>
+    <% else %>
+      <span></span>
+    <% end %>
+  </button>
+<% end %>
