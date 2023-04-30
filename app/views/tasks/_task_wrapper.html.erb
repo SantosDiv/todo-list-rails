@@ -1,7 +1,9 @@
 <article class="task-wrapper">
   <div class="task-container d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex justify-content-between align-items-center gap-3 task">
-      <i class="bi bi-check-circle-fill fs-5 <%= task_presenter.status_class_icon %>"></i>
+
+      <%= render partial: "tasks/change_task_status_btn", locals: { task_presenter: task_presenter } %>
+
       <h5 class="m-0 fw-normal <%= task_presenter.done? ? "line-through" : ""%>"><%= task_presenter.description %></h5>
       <span class="<%= task_presenter.status_class_badge %>"><%= task_presenter.status_translated %></span>
     </div>
@@ -17,7 +19,9 @@
         <div class="subtask ps-3 pe-3 pb-2">
           <div class="d-flex align-items-center gap-3 task-box">
             <div class="d-flex justify-content-between align-items-center gap-3 task-description">
-              <i class="bi bi-check-circle-fill fs-6 <%= sub_task.status_class_icon %>"></i>
+
+              <%= render partial: "tasks/change_task_status_btn", locals: { task_presenter: sub_task } %>
+
               <h5 class="m-0 fw-light fs-6 <%= sub_task.done? ? "line-through" : ""%>"><%= sub_task.description %></h5>
               <span class="<%= sub_task.status_class_badge %>"><%= sub_task.status_translated %></span>
             </div>
