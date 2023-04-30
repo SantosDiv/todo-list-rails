@@ -18,10 +18,10 @@ RSpec.describe TasksController, type: :controller do
   }
 
   describe "#create" do
-    describe 'create a task' do
+    describe 'create a parent task' do
       context 'when task params is correctly' do
 
-        it 'create a task' do
+        it 'create with success' do
           post :create, params: valid_params
 
           expect(Task.count).to eq(1)
@@ -110,6 +110,66 @@ RSpec.describe TasksController, type: :controller do
       delete :destroy, params: params
 
       expect(Task.count).to eq(0)
+    end
+  end
+
+  describe "#change_status" do
+    let(:task) { create(:task) }
+
+    context 'when is parent task' do
+      let(:params) {
+        {
+          task_id: task.id
+        }
+      }
+
+      it 'change status successfully' do
+        put :change_status, params: params
+
+        task.reload
+        expect(task.done).to eq(true)
+      end
+    end
+
+    context 'when is subtasks' do
+      let(:task) { create(:task, :with_two_sub_tasks) }
+      let(:sub_task) { task.sub_tasks.first }
+
+      context 'and not all tasks were completed' do
+        let(:params) {
+          {
+            task_id: sub_task.id
+          }
+        }
+
+        it 'change status only subtask' do
+          put :change_status, params: params
+
+          sub_task.reload
+          expect(sub_task.done).to eq(true)
+          expect(task.done).to eq(false)
+        end
+      end
+
+      context 'and all tasks were completed' do
+        let(:task) { create(:task, :with_at_least_one_completed_subtask) }
+        let(:sub_task) { task.sub_tasks.last }
+        let(:params) {
+          {
+            task_id: sub_task.id
+          }
+        }
+
+        it 'change status subtask and parent task' do
+          put :change_status, params: params
+
+          sub_task.reload
+          task.reload
+          expect(sub_task.done).to eq(true)
+          expect(task.done).to eq(true)
+        end
+      end
+
     end
   end
 end

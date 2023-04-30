@@ -19,7 +19,23 @@ class Task < ApplicationRecord
     .order(date: :asc)
   }
 
+  def sub_task?
+    !self.parent_id.nil?
+  end
+
+  def all_sub_task_done?
+    return if sub_task?
+    self.sub_tasks.all?(&:done?)
+  end
+
   def has_sub_task?
     !self.sub_tasks.empty?
+  end
+
+  def change_parent_status!
+    status = false
+    status = true if self.all_sub_task_done?
+
+    self.update(done: status)
   end
 end
