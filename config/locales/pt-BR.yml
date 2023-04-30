@@ -1,0 +1,13 @@
+pt-BR:
+  activerecord:
+    attributes:
+      task:
+        description: "Descrição"
+    errors:
+      models:
+        task:
+          attributes:
+            description:
+              blank: "não pode ser vazio"
+      messages:
+        record_invalid: "A validação falhou: %{errors}"
