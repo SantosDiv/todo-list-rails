@@ -1,12 +1,17 @@
 <main class="tasks-container">
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %> alert-dismissible fade show" role="alert">
+        <%= value %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
   <header class="header-task">
     <div class="d-flex align-items-center">
       <i class="bi bi-list-task fs-4 me-2 mt-1"></i>
       <h5 class="m-0 title">Lista de Tarefas</h5>
     </div>
 
-    <%= link_to 'Nova tarefa', new_task_path %>
-    <%# <button class="btn btn-primary btn-add">Nova tarefa</button> %>
+    <%= link_to 'Nova tarefa', new_task_path, class: "btn btn-primary" %>
   </header>
   <hr class="mt-2">
 
