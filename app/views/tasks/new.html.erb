@@ -8,7 +8,7 @@
   <header class="header-task">
     <div class="d-flex align-items-center">
       <i class="bi bi-list-task fs-4 me-2 mt-1"></i>
-      <% if params[:parent_id] %>
+      <% if @parent_id.present? %>
         <h5 class="m-0 title">Nova sub-tarefa</h5>
       <% else %>
         <h5 class="m-0 title">Nova Tarefa</h5>
@@ -19,7 +19,7 @@
   <hr class="mt-2">
 
   <%= form_with url: tasks_path, local: true do |form| %>
-    <%= form.hidden_field :parent_id, value: params[:parent_id] %>
+    <%= form.hidden_field :parent_id, value: @parent_id %>
     <div class="row">
       <div class="col-auto">
         <%= form.label "Titulo", for: :description, class: "form-label" %>
