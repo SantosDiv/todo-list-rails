@@ -23,7 +23,7 @@ class TasksController < ApplicationController
       uc.execute
 
       redirect_to tasks_path, success: "Tarefa criada com sucesso"
-    rescue CreateTaskException => exception
+    rescue TaskException => exception
       redirect_to get_redirect_path(action: :new), danger: exception.message
     rescue
       redirect_to new_task_path, danger: "Ocorreu um erro inesperado."
@@ -32,13 +32,13 @@ class TasksController < ApplicationController
 
   def update
     begin
-      validate_params!
+      uc = UpdateTask.new(task_params: task_params)
+      uc.execute(task_model: @task)
 
-      @task.update(task_params)
       redirect_to tasks_path, success: "Tarefa atualizada com sucesso"
-    rescue CreateTaskException => exception
+    rescue TaskException => exception
       redirect_to get_redirect_path(action: :edit), danger: exception.message
-    rescue
+    rescue => exception
       redirect_to tasks_path, danger: "Ocorreu um erro inesperado."
     end
   end
@@ -89,17 +89,6 @@ class TasksController < ApplicationController
 
   def parent_id
     params[:parent_id]
-  end
-
-  def validate_params!
-    required_params = [{ key: :description, key_translated: "descrição" }]
-    required_params.each do |required_param|
-      key = required_param[:key]
-      if params[key].nil? || params[key].empty?
-        raise CreateTaskException.new(message: "A #{required_param[:key_translated]} é obrigatório(a)")
-      end
-      true
-    end
   end
 
   def change_parent_status(parent:)
