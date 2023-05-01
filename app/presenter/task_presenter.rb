@@ -11,6 +11,10 @@ class TaskPresenter
     @task.id
   end
 
+  def parent_id
+    @task.parent_id
+  end
+
   def done?
     @task.done
   end

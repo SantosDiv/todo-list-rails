@@ -11,8 +11,8 @@ describe CreateTask do
 
       let(:uc) { described_class }
 
-      it 'raise error CreateTaskException' do
-        expect{ uc.new(task_params: invalid_task_params) }.to raise_error(CreateTaskException)
+      it 'raise error TaskException' do
+        expect{ uc.new(task_params: invalid_task_params) }.to raise_error(TaskException)
       end
     end
 
@@ -30,7 +30,7 @@ describe CreateTask do
         expect(uc.new(task_params: valid_task_params)).to be_instance_of(CreateTask)
       end
 
-      context "and is a parent task" do
+      context "and it is a parent task" do
         it 'create the task successfully' do
           task = uc.new(task_params: valid_task_params).execute
 
@@ -39,7 +39,7 @@ describe CreateTask do
         end
       end
 
-      context 'and is a subtask' do
+      context 'and it is a subtask' do
         let(:parent_task) { create(:task) }
 
         let(:params) {
@@ -67,8 +67,8 @@ describe CreateTask do
             }
           }
 
-          it 'raise error CreateTakeException' do
-            expect{ uc.new(task_params: params) }.to raise_error(CreateTaskException)
+          it 'raise error TaskException' do
+            expect{ uc.new(task_params: params) }.to raise_error(TaskException)
           end
         end
       end

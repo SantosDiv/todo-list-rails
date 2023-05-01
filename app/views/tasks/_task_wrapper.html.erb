@@ -9,7 +9,9 @@
     </div>
     <div class="actions d-flex align-items-center gap-4">
       <%= link_to '+ Adicionar subtarefa', new_task_path(parent_id: task_presenter.task_id), class: "btn" %>
-      <a href="#" class="text-secondary"><i class="bi bi-pencil-fill fs-5"></i></a>
+      <%= link_to edit_task_path(task_presenter.task_id), class: "text-secondary" do %>
+        <i class="bi bi-pencil-fill fs-6"></i>
+      <% end %>
       <%= link_to task_path(task_presenter.task_id), method: :delete, class: "text-danger fw-bold",
           data: { confirm: "Tem certeza que deseja deletar?" } do %>
         <i class="bi bi-x-lg fs-5"></i>
@@ -29,7 +31,9 @@
               <span class="<%= sub_task.status_class_badge %>"><%= sub_task.status_translated %></span>
             </div>
             <div class="actions d-flex align-items-center gap-4">
-              <a href="#" class="text-secondary"><i class="bi bi-pencil-fill fs-6"></i></a>
+              <%= link_to edit_task_path(id: sub_task.task_id, parent_id: sub_task.parent_id), class: "text-secondary" do %>
+                <i class="bi bi-pencil-fill fs-6"></i>
+              <% end %>
               <%= link_to task_path(sub_task.task_id), method: :delete, class: "text-danger fw-bold",
                 data: { confirm: "Tem certeza que deseja deletar?" } do %>
                 <i class="bi bi-x-lg fs-6"></i>

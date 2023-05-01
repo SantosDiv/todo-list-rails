@@ -23,6 +23,10 @@ class Task < ApplicationRecord
     !self.parent_id.nil?
   end
 
+  def parent?
+    self.parent_id.nil?
+  end
+
   def all_sub_task_done?
     return if sub_task?
     self.sub_tasks.all?(&:done?)
