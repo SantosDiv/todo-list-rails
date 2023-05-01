@@ -9,22 +9,17 @@ class TasksController < ApplicationController
   end
 
   def new
+    @parent_id = parent_id
   end
 
   def create
     begin
-      @task = Task.new(task_params)
-
-      @task.transaction do
-        @task.save!
-
-        unless task_params[:parent_id].nil?
-          @task.reload
-          change_parent_status(parent: @task.parent)
-        end
-      end
+      uc = CreateTask.new(task_params: task_params)
+      uc.execute
 
       redirect_to tasks_path, success: "Tarefa criada com sucesso"
+    rescue CreateTaskException => exception
+      redirect_to get_redirect_path, danger: exception.message
     rescue => exception
       redirect_to new_task_path, danger: @task.errors.full_messages.to_sentence
     end
@@ -80,6 +75,10 @@ class TasksController < ApplicationController
     params.permit(:description, :date, :done, :parent_id)
   end
 
+  def parent_id
+    params[:parent_id]
+  end
+
   def validate_params!
     required_params = [:description, :done]
     required_params.each do |required_param|
@@ -93,4 +92,10 @@ class TasksController < ApplicationController
   def change_parent_status(parent:)
     parent.change_parent_status!
   end
+
+  def get_redirect_path
+    return new_task_path(parent_id: parent_id) if parent_id.present?
+    new_task_path
+  end
+
 end
