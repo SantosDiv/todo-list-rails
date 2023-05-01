@@ -11,8 +11,8 @@ describe CreateTask do
 
       let(:uc) { described_class }
 
-      it 'raise error CreateTaskException' do
-        expect{ uc.new(task_params: invalid_task_params) }.to raise_error(CreateTaskException)
+      it 'raise error TaskException' do
+        expect{ uc.new(task_params: invalid_task_params) }.to raise_error(TaskException)
       end
     end
 
@@ -67,8 +67,8 @@ describe CreateTask do
             }
           }
 
-          it 'raise error CreateTakeException' do
-            expect{ uc.new(task_params: params) }.to raise_error(CreateTaskException)
+          it 'raise error TaskException' do
+            expect{ uc.new(task_params: params) }.to raise_error(TaskException)
           end
         end
       end
