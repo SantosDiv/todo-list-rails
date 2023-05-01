@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:update, :destroy, :change_status]
+  before_action :set_task, only: [:edit, :update, :destroy, :change_status]
 
   def index
     @tasks_today = Task.only_today
@@ -12,6 +12,11 @@ class TasksController < ApplicationController
     @parent_id = parent_id
   end
 
+  def edit
+    @parent_id = parent_id
+    @time_value = @task.date.strftime("%Y-%m-%dT%k:%M")
+  end
+
   def create
     begin
       uc = CreateTask.new(task_params: task_params)
@@ -19,9 +24,9 @@ class TasksController < ApplicationController
 
       redirect_to tasks_path, success: "Tarefa criada com sucesso"
     rescue CreateTaskException => exception
-      redirect_to get_redirect_path, danger: exception.message
-    rescue => exception
-      redirect_to new_task_path, danger: @task.errors.full_messages.to_sentence
+      redirect_to get_redirect_path(action: :new), danger: exception.message
+    rescue
+      redirect_to new_task_path, danger: "Ocorreu um erro inesperado."
     end
   end
 
@@ -31,18 +36,20 @@ class TasksController < ApplicationController
 
       @task.update(task_params)
       redirect_to tasks_path, success: "Tarefa atualizada com sucesso"
+    rescue CreateTaskException => exception
+      redirect_to get_redirect_path(action: :edit), danger: exception.message
     rescue
-      redirect_to tasks_path, danger: "Ocorreu um erro ao atualizar a tarefa"
+      redirect_to tasks_path, danger: "Ocorreu um erro inesperado."
     end
   end
 
   def destroy
     begin
-      @task.destroy!
-
       if @task.sub_task?
         change_parent_status(parent: @task.parent)
       end
+
+      @task.destroy!
 
       redirect_to tasks_path, success: "Tarefa deletada com sucesso"
     rescue
@@ -85,10 +92,11 @@ class TasksController < ApplicationController
   end
 
   def validate_params!
-    required_params = [:description, :done]
+    required_params = [{ key: :description, key_translated: "descrição" }]
     required_params.each do |required_param|
-      if params[required_param].nil? || params[required_param].empty?
-        raise "O parâmetro #{required_param} é obrigatório"
+      key = required_param[:key]
+      if params[key].nil? || params[key].empty?
+        raise CreateTaskException.new(message: "A #{required_param[:key_translated]} é obrigatório(a)")
       end
       true
     end
@@ -98,7 +106,12 @@ class TasksController < ApplicationController
     parent.change_parent_status!
   end
 
-  def get_redirect_path
+  def get_redirect_path(action:)
+    if action == :edit
+      return edit_task_path(parent_id: parent_id) if parent_id.present?
+      return edit_task_path
+    end
+
     return new_task_path(parent_id: parent_id) if parent_id.present?
     new_task_path
   end
