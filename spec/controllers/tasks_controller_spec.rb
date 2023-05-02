@@ -129,6 +129,27 @@ RSpec.describe TasksController, type: :controller do
         task.reload
         expect(task.done).to eq(true)
       end
+
+      context 'and has a subtasks' do
+        let(:parent_task) { create(:task, :with_two_sub_tasks) }
+
+        let(:params) {
+          {
+            task_id: parent_task.id
+          }
+        }
+
+        it 'change parent status and all subtasks status' do
+          put :change_status, params: params
+
+          parent_task.reload
+          subtasks = parent_task.sub_tasks
+
+          expect(parent_task.done).to eq(true)
+          expect(subtasks.first.done).to eq(parent_task.done)
+          expect(subtasks.second.done).to eq(parent_task.done)
+        end
+      end
     end
 
     context 'when is subtasks' do
