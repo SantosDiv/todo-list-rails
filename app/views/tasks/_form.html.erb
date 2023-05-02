@@ -13,7 +13,9 @@
   </div>
   <div class="row mt-3">
     <div class="col-auto">
-      <%= form.submit "Criar", class: "form-control btn btn-primary"%>
+      <button type="submit", class="form-control btn btn-primary">
+        <%= @task.nil? ? "Criar" : "Salvar" %>
+      </button>
     </div>
   </div>
 <% end %>
