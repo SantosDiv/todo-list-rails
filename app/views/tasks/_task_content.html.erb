@@ -5,17 +5,17 @@
   <h5 class="m-0 <%= task_presenter.description_class %>"%>
     <%= task_presenter.description %>
   </h5>
-  <span class="<%= task_presenter.status_class_badge %>"><%= task_presenter.status_translated %></span>
+  <span class="badge <%= task_presenter.status_class_badge %>"><%= task_presenter.status_translated %></span>
 </div>
-<div class="actions d-flex align-items-center gap-4">
+<div class="actions d-flex align-items-center">
   <% if task_presenter.parent? %>
     <%= link_to '+ Adicionar subtarefa', new_task_path(parent_id: task_presenter.task_id), class: "btn" %>
   <% end %>
   <%= link_to edit_task_path(id: task_presenter.task_id, parent_id: task_presenter.parent_id), class: "text-secondary" do %>
-    <i class="bi bi-pencil-fill fs-6"></i>
+    <i class="bi bi-pencil-fill <%= task_presenter.parent? ? "fs-5" : "fs-6"%>"></i>
   <% end %>
   <%= link_to task_path(task_presenter.task_id), method: :delete, class: "text-danger fw-bold",
       data: { confirm: "Tem certeza que deseja deletar?" } do %>
-    <i class="bi bi-x-lg <%= task_presenter.parent? ? "fs-5" : "fs-6"%>"></i>
+      <i class="bi bi-trash3-fill <%= task_presenter.parent? ? "fs-5" : "fs-6"%>"></i>
   <% end %>
 </div>

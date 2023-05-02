@@ -25,8 +25,9 @@ body {
   box-sizing: border-box;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
   padding: 2em;
-  width: 70%;
+  width: 60%;
   border-radius: 10px;
+  min-width: 360px;
 }
 
 .header-task {
@@ -72,12 +73,13 @@ body {
   border: 1px solid var(--yellow-700);
 }
 
-.pending-badge, .done-badge {
+.badge {
   font-size: 11px;
-  padding: 0.2em;
+  padding: 0.5em;
   border-radius: 5px;
   color: white;
   margin-top: 5px;
+  font-weight: normal;
 }
 
 .done-bg {
@@ -86,4 +88,17 @@ body {
 
 .line-through {
   text-decoration: line-through;
+}
+
+.actions {
+  gap: 15px;
+}
+
+@media (max-width: 720px) {
+  .badge {
+    display: none;
+  }
+  .actions {
+    gap: 15px;
+  }
 }
