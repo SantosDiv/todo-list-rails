@@ -21,8 +21,8 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: localhost
-  username:
-  password:
+  username: <%= ENV["USERNAME_DB"] %>
+  password: <%= ENV["PASSWORD_DB"] %>
 
 development:
   <<: *default
@@ -84,6 +84,7 @@ test:
 #
 production:
   <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
   database: todo_list_rails_production
   username: todo_list_rails
   password: <%= ENV['TODO_LIST_RAILS_DATABASE_PASSWORD'] %>
