@@ -17,23 +17,6 @@
     <%= link_to 'Voltar', tasks_path, class: "btn btn-primary" %>
   </header>
   <hr class="mt-2">
+  <%= render partial: "tasks/form", locals: { path: task_path, method: :put } %>
 
-  <%= form_with url: task_path, local: true, method: :put do |form| %>
-    <%= form.hidden_field :parent_id, value: @parent_id %>
-    <div class="row">
-      <div class="col-auto">
-        <%= form.label "Titulo", for: :description, class: "form-label" %>
-        <%= form.text_field :description, value: @task.description, placeholder: "Buscar crianças na escola",  class: "form-control" %>
-      </div>
-      <div class="col-auto">
-        <%= form.label "Data da tarefa", for: :date, class: "form-label" %>
-        <%= form.datetime_field :date, value: @time_value, class: "form-control"%>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-auto">
-        <%= form.submit "Salvar", class: "form-control btn btn-primary"%>
-      </div>
-    </div>
-  <% end %>
 </main>
