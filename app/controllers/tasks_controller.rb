@@ -2,10 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:edit, :update, :destroy, :change_status]
 
   def index
-    @tasks_today = Task.only_today
-    @tasks_tomorrow = Task.only_tomorrow
-    @tasks_today_presenters = @tasks_today.map { |task| TaskPresenter.new(task: task) }
-    @tasks_tomorrow_presenters = @tasks_tomorrow.map { |task| TaskPresenter.new(task: task) }
+    @show_tasks_days = get_tasks_by_filter_date || get_standard_day_tasks
   end
 
   def new
@@ -103,6 +100,44 @@ class TasksController < ApplicationController
 
     return new_task_path(parent_id: parent_id) if parent_id.present?
     new_task_path
+  end
+
+  def get_standard_day_tasks
+    [
+      {
+        label_day: "Hoje",
+        tasks_presenters: get_all_tasks_by_date(date: today)
+      },
+      {
+        label_day: "Amanhã",
+        tasks_presenters:  get_all_tasks_by_date(date: tomorrow)
+      }
+    ]
+  end
+
+  def get_tasks_by_filter_date
+    return if params[:filter_date].nil?
+
+    [
+      {
+        label_day: params[:filter_date].to_date.strftime("%d/%m/%Y"),
+        tasks_presenters: get_all_tasks_by_date(date: params[:filter_date])
+      }
+    ]
+  end
+
+  def get_all_tasks_by_date(date:)
+    tasks = Task.filter_by(date: date)
+
+    tasks.map { |task| TaskPresenter.new(task: task) }
+  end
+
+  def today
+    Time.zone.today
+  end
+
+  def tomorrow
+    Time.zone.tomorrow
   end
 
 end
