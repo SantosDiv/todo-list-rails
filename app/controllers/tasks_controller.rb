@@ -60,9 +60,9 @@ class TasksController < ApplicationController
 
       @task.update(done: !old_status)
 
-      if @task.sub_task?
-        change_parent_status(parent: @task.parent)
-      end
+      @task.change_all_subtasks_status_by_parent! if @task.parent?
+
+      change_parent_status(parent: @task.parent) if @task.sub_task?
 
       redirect_to tasks_path
     rescue => exception

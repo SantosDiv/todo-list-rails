@@ -35,4 +35,11 @@ class Task < ApplicationRecord
 
     self.update(done: status)
   end
+
+  def change_all_subtasks_status_by_parent!
+    return unless self.done || self.parent?
+
+    parent_task_new_status = self.done
+    self.sub_tasks.each { |subtask| subtask.update(done: parent_task_new_status) }
+  end
 end
