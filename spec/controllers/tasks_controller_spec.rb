@@ -130,7 +130,7 @@ RSpec.describe TasksController, type: :controller do
         expect(task.done).to eq(true)
       end
 
-      context 'and has a subtasks' do
+      context 'and has subtasks' do
         let(:parent_task) { create(:task, :with_two_sub_tasks) }
 
         let(:params) {
