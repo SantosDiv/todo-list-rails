@@ -12,7 +12,7 @@ class UpdateTask < TasksManager
   private
 
   def update_date_subtasks(parent_task_updated:)
-    return unless parent_task_updated.has_sub_task?
+    return unless parent_task_updated.has_sub_task? && date_parent_task_changed?
 
     subtasks = parent_task_updated.sub_tasks
 
@@ -25,7 +25,7 @@ class UpdateTask < TasksManager
     end
   end
 
-  def date_parent_task_changed?(before_updated:)
+  def date_parent_task_changed?
     new_task_date = @task_params[:date].to_date
     @old_task_date != new_task_date
   end
