@@ -1,44 +1,13 @@
 <article class="task-wrapper">
   <div class="task-container d-flex justify-content-between align-items-center mb-3">
-    <div class="d-flex justify-content-between align-items-center gap-3 task">
-
-      <%= render partial: "tasks/change_task_status_btn", locals: { task_presenter: task_presenter } %>
-
-      <h5 class="m-0 fw-normal <%= task_presenter.done? ? "line-through" : ""%>"><%= task_presenter.description %></h5>
-      <span class="<%= task_presenter.status_class_badge %>"><%= task_presenter.status_translated %></span>
-    </div>
-    <div class="actions d-flex align-items-center gap-4">
-      <%= link_to '+ Adicionar subtarefa', new_task_path(parent_id: task_presenter.task_id), class: "btn" %>
-      <%= link_to edit_task_path(task_presenter.task_id), class: "text-secondary" do %>
-        <i class="bi bi-pencil-fill fs-6"></i>
-      <% end %>
-      <%= link_to task_path(task_presenter.task_id), method: :delete, class: "text-danger fw-bold",
-          data: { confirm: "Tem certeza que deseja deletar?" } do %>
-        <i class="bi bi-x-lg fs-5"></i>
-      <% end %>
-    </div>
+    <%= render partial: 'tasks/task_content', locals: { task_presenter: task_presenter } %>
   </div>
   <article class="subtasks-container">
   <% if task_presenter.has_sub_task? %>
     <% task_presenter.sub_tasks.each do |sub_task| %>
         <div class="subtask ps-3 pe-3 pb-2">
           <div class="d-flex align-items-center gap-3 task-box">
-            <div class="d-flex justify-content-between align-items-center gap-3 task-description">
-
-              <%= render partial: "tasks/change_task_status_btn", locals: { task_presenter: sub_task } %>
-
-              <h5 class="m-0 fw-light fs-6 <%= sub_task.done? ? "line-through" : ""%>"><%= sub_task.description %></h5>
-              <span class="<%= sub_task.status_class_badge %>"><%= sub_task.status_translated %></span>
-            </div>
-            <div class="actions d-flex align-items-center gap-4">
-              <%= link_to edit_task_path(id: sub_task.task_id, parent_id: sub_task.parent_id), class: "text-secondary" do %>
-                <i class="bi bi-pencil-fill fs-6"></i>
-              <% end %>
-              <%= link_to task_path(sub_task.task_id), method: :delete, class: "text-danger fw-bold",
-                data: { confirm: "Tem certeza que deseja deletar?" } do %>
-                <i class="bi bi-x-lg fs-6"></i>
-              <% end %>
-            </div>
+            <%= render partial: 'tasks/task_content', locals: { task_presenter: sub_task } %>
           </div>
         </div>
     <% end %>
