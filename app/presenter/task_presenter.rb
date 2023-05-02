@@ -15,6 +15,10 @@ class TaskPresenter
     @task.parent_id
   end
 
+  def parent?
+    @task.parent?
+  end
+
   def done?
     @task.done
   end
@@ -32,6 +36,14 @@ class TaskPresenter
   def status_class_icon
     return "done-icon" if self.done?
     return "text-secondary"
+  end
+
+  def description_class
+    class_css = ""
+    class_css << "line-through text-secondary" if @task.done?
+
+    return class_css << " fw-light fs-6" if @task.sub_task?
+    class_css << " fw-normal"
   end
 
   def has_sub_task?
