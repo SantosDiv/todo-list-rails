@@ -127,7 +127,7 @@ class TasksController < ApplicationController
   end
 
   def get_all_tasks_by_date(date:)
-    tasks = Task.filter_by(date: date)
+    tasks = Task.filter_by(date: date.to_date)
 
     tasks.map { |task| TaskPresenter.new(task: task) }
   end
