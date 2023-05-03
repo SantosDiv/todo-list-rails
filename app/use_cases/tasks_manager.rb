@@ -15,6 +15,8 @@ class TasksManager
 
     validate_datetime_subtask! if subtask?
 
+    validate_date!
+
     required_params.each do |required_param|
       key = required_param[:key]
       if @task_params[key].nil? || @task_params[key].empty?
@@ -38,5 +40,12 @@ class TasksManager
     end
 
     true
+  end
+
+  def validate_date!
+    valid_date = Time.zone.today.to_date
+    if @task_params[:date].to_date < valid_date
+      raise TaskException.new(message: "Data inválida! Por favor insira uma data a partir do dia: #{valid_date.strftime("%d/%m/%Y")}")
+    end
   end
 end

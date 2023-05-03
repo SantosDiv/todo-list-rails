@@ -9,7 +9,7 @@
     <% if @parent_id.nil? %>
       <div class="col-auto">
         <%= form.label "Data da tarefa", for: :date, class: "form-label" %>
-        <%= form.datetime_field :date, value: @time_value, class: "form-control"%>
+        <%= form.datetime_field :date, value: @time_value, class: "form-control", min: Time.zone.today.to_date %>
       </div>
     <% end %>
   </div>
