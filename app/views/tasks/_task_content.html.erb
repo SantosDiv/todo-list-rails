@@ -2,9 +2,14 @@
 
   <%= render partial: "tasks/change_task_status_btn", locals: { task_presenter: task_presenter } %>
 
-  <h5 class="m-0 <%= task_presenter.description_class %>"%>
-    <%= task_presenter.description %>
-  </h5>
+  <div class="d-flex align-items-center gap-2">
+    <h5 class="m-0 <%= task_presenter.description_class %>"%>
+      <%= task_presenter.description %>
+    </h5>
+    <% if task_presenter.parent? %>
+      <span class="time text-secondary"><%= task_presenter.time %></span>
+    <% end %>
+  </div>
   <span class="badge <%= task_presenter.status_class_badge %>"><%= task_presenter.status_translated %></span>
 </div>
 <div class="actions d-flex align-items-center">
