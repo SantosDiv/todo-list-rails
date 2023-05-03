@@ -3,7 +3,7 @@ class Task < ApplicationRecord
   validates :done, inclusion: [true, false]
 
   belongs_to :parent, class_name: 'Task', optional: true
-  has_many :sub_tasks, -> { order("date") }, class_name: 'Task', foreign_key: :parent_id, dependent: :destroy
+  has_many :sub_tasks, -> { order("created_at") }, class_name: 'Task', foreign_key: :parent_id, dependent: :destroy
 
   scope :only_parent, -> { where(parent_id: nil) }
 
