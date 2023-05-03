@@ -44,8 +44,8 @@ describe CreateTask do
 
         let(:params) {
           {
+            description: "New subtask",
             parent_id: parent_task.id,
-            **valid_task_params
           }
         }
 
@@ -54,6 +54,7 @@ describe CreateTask do
 
           expect(task.description).to eq(params[:description])
           expect(task.parent_id).to eq(parent_task.id)
+          expect(task.date.to_date).to eq(parent_task.date.to_date)
           expect(Task.count).to eq(2)
         end
 
