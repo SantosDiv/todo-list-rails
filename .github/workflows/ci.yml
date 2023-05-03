@@ -1,0 +1,58 @@
+name: Ruby
+
+on: push
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: todo_list_rails_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.20.0
+
+      - name: Yarn package cache
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('./yarn.lock') }}
+
+      - name: Install Yarn packages
+        run: yarn install --pure-lockfile
+
+      - name: Copy config files
+        run: |
+          mv ${{ github.workspace }}/config/database.ci.yml ${{ github.workspace }}/config/database.yml
+
+      - name: Setup DB
+        working-directory: ${{ github.workspace }}
+        env:
+          RAILS_ENV: test
+        run: |
+          bin/rails db:create db:schema:load
+
+      - name: Run tests
+        run: bundle exec rspec
