@@ -3,7 +3,7 @@
   <%= render partial: "tasks/change_task_status_btn", locals: { task_presenter: task_presenter } %>
 
   <div class="d-flex align-items-center gap-2">
-    <h5 class="m-0 <%= task_presenter.description_class %>"%>
+    <h5 class="m-0 description <%= task_presenter.description_class %>"%>
       <%= task_presenter.description %>
     </h5>
     <% if task_presenter.parent? %>

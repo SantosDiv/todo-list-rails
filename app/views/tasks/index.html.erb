@@ -15,18 +15,20 @@
   </header>
   <hr class="mt-2">
 
-  <% @show_tasks_days.each do |tasks_day| %>
-    <section class="day-section">
-      <h5 class="title m-0"><%= tasks_day[:label_day] %></h5>
-      <section class="tasks-box p-3">
-        <% if tasks_day[:tasks_presenters].empty? %>
-          <h6 class="text-black-50 fw-normal">Nenhuma tarefa prevista</h6>
-        <% else %>
-          <% tasks_day[:tasks_presenters].each do |task_presenter| %>
-            <%= render partial: "tasks/task_wrapper", locals: { task_presenter: task_presenter } %>
-          <% end %>
-        <% end %>
-      </section>
-    </section>
-  <% end %>
+  <main class="days-sections-container">
+    <% @show_tasks_days.each do |tasks_day| %>
+        <section class="day-section">
+          <h5 class="title m-0"><%= tasks_day[:label_day] %></h5>
+          <section class="tasks-box p-3">
+            <% if tasks_day[:tasks_presenters].empty? %>
+              <h6 class="text-black-50 fw-normal">Nenhuma tarefa prevista</h6>
+            <% else %>
+              <% tasks_day[:tasks_presenters].each do |task_presenter| %>
+                <%= render partial: "tasks/task_wrapper", locals: { task_presenter: task_presenter } %>
+              <% end %>
+            <% end %>
+          </section>
+        </section>
+    <% end %>
+  </main>
 </main>

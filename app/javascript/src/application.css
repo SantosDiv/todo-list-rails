@@ -25,9 +25,9 @@ body {
   box-sizing: border-box;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
   padding: 2em;
-  width: 60%;
+  width: 1150px;
   border-radius: 10px;
-  min-width: 360px;
+  /* min-width: 360px; */
 }
 
 .header-task {
@@ -44,6 +44,46 @@ body {
 .title {
   line-height: 1.1;
   color: var(--gray-500);
+}
+
+.days-sections-container {
+  max-height: 600px;
+  overflow: scroll;
+  overflow-x: auto;
+}
+
+.days-sections-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+.days-sections-container::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+/* Handle */
+.days-sections-container::-webkit-scrollbar-thumb {
+  background: rgb(191, 191, 191);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.days-sections-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.task-container {
+  flex-wrap: wrap;
+  transition: 1s;
+}
+
+.description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px!important;
+  transition: 0.3s;
 }
 
 .btn-change-status {
@@ -101,6 +141,10 @@ body {
 }
 
 @media (max-width: 720px) {
+  .description {
+    max-width: 200px!important;
+  }
+
   .badge {
     display: none;
   }
