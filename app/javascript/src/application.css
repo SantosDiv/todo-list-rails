@@ -94,6 +94,12 @@ body {
   gap: 15px;
 }
 
+.time {
+  font-size: 13px;
+  text-decoration: none!important;
+  margin-top: 4px;
+}
+
 @media (max-width: 720px) {
   .badge {
     display: none;
