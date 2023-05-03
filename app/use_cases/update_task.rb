@@ -16,12 +16,10 @@ class UpdateTask < TasksManager
 
     subtasks = parent_task_updated.sub_tasks
 
-    date_parent_task = parent_task_updated.date.to_date
+    date_parent_task = parent_task_updated.date
 
     subtasks.each do |subtask|
-      original_time = subtask.date.strftime("%H:%M")
-
-      subtask.update(date: "#{date_parent_task} #{original_time}")
+      subtask.update(date: date_parent_task)
     end
   end
 
