@@ -7,7 +7,8 @@ describe UpdateTask do
       let(:invalid_task_params) {
         {
           id: task.id,
-          descripion: nil
+          descripion: nil,
+          date: Time.zone.today - 1.day
         }
       }
 
@@ -39,7 +40,8 @@ describe UpdateTask do
       let(:valid_task_params) {
         {
           id: task.id,
-          description: "New description"
+          description: "New description",
+          date: Time.zone.now
         }
       }
 
@@ -97,7 +99,8 @@ describe UpdateTask do
         let(:params) {
           {
             id: subtask.id,
-            description: "New description"
+            description: "New description",
+            parent_id: parent_task.id
           }
         }
 

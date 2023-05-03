@@ -5,7 +5,8 @@ describe CreateTask do
     context "when params is invalid" do
       let(:invalid_task_params) {
         {
-          descripion: nil
+          descripion: nil,
+          date: Time.zone.today - 1.day
         }
       }
 

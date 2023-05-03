@@ -14,7 +14,7 @@ Para a realização deste projeto, foi utilizado **Ruby on Rails, Bootstrap, Rub
 ### Ruby on Rails (RoR)
 Ele é um framework de base ruby que possibilita a criação de páginas HTML, CSS e Javascript, com renderização do lado do servidor. Ou seja, o server processa a página antes de chegar ao Cliente (Navegador pore exemplo). Isso ganha em Indexação, processamento, segurança e entre outras coisas. O seu conjunto de bibliotecas facilitam o desenvolvimento, fornecendo uma estrutura básica, mas que mesmo assim é completa.
 
-O [Rails](https://rubyonrails.org/) utiliza um modelo de estrutura de projeto chamado de MVC (model-views-controller). Que é a forma que ele processa a comunicação entre banco de dados e cliente. 
+O [Rails](https://rubyonrails.org/) utiliza um modelo de estrutura de projeto chamado de MVC (model-views-controller). Que é a forma que ele processa a comunicação entre banco de dados e cliente.
 
 ### Bootstrap
 Ele é basicamente um conjunto de ferramentas front-end, que além de outras coisas, traz uma produtividade quando se trata de estilização do seu projeto. Ele traz estilos prontos, abstraindo os códigos css puro. Entretanto ele entrega, no passo final, a folha de estilo CSS.
@@ -31,7 +31,7 @@ Para este projeto, foi criado um layout simples e mais clean. [Link do projeto f
 Neste projeto foi utilizado o ruby puro, com traços de **POO, utilizando boas responsabilidades de classes, garantindo invariâncias de classes, herança e padrão clean code**.
 
 ## Diferenciais propostos
-Durante a criação do projeto, foi utilizado diversos recursos para que tudo fosse criado com o melhor equilíbrio de produtividade e eficiência. 
+Durante a criação do projeto, foi utilizado diversos recursos para que tudo fosse criado com o melhor equilíbrio de produtividade e eficiência.
 Dentre diversas implementações, podem-se destacar:
  - **Github projects** - para a organização do projeto (Kanban);
  - **Figma** - utilizado para a criação da proposta do layout do projeto;
@@ -47,9 +47,16 @@ Dentre diversas implementações, podem-se destacar:
 **Local**
 
 ```
-=> Fork do projeto
-$ git clone git@github.com:YOUR_USERNAME_GITHUB/todo-list-rails.git
-$ bundle install && yarn install
+1) Fork do projeto
+2) $ git clone git@github.com:YOUR_USERNAME_GITHUB/todo-list-rails.git
+3) $ bundle install && yarn install
+
+4) Copiar o arquivo `local_env.example.yml` e renomear para `local_env.yml`
+5) Editar as chaves do postgres dentro do arquivo `local_env.yml`
+
+6) $ bundle exec rails db:create
+7) $ bundle exec rails db:migrate
+
 $ rails s
 
 ```

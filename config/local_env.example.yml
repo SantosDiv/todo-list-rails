@@ -1,0 +1,9 @@
+# Renomei este arquivo para local_env.yml
+# Adicione as credenciais do seu banco de dados
+
+# Exemplo: POSTGRES_USER: postgres
+# Exemplo: POSTGRES_PASSWORD: postgres
+
+
+POSTGRES_USER:
+POSTGRES_PASSWORD:
