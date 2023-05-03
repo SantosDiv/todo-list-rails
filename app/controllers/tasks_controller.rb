@@ -23,7 +23,7 @@ class TasksController < ApplicationController
     rescue TaskException => exception
       redirect_to get_redirect_path(action: :new), danger: exception.message
     rescue
-      redirect_to new_task_path, danger: "Ocorreu um erro inesperado."
+      redirect_to tasks_path, danger: "Ocorreu um erro inesperado."
     end
   end
 
@@ -42,11 +42,11 @@ class TasksController < ApplicationController
 
   def destroy
     begin
+      @task.destroy!
+
       if @task.sub_task?
         change_parent_status(parent: @task.parent)
       end
-
-      @task.destroy!
 
       redirect_to tasks_path, success: "Tarefa deletada com sucesso"
     rescue
