@@ -29,6 +29,8 @@ class TasksManager
   end
 
   def validate_datetime_subtask!
+    return true if @task_params[:date].nil?
+
     parent_task = Task.find(@task_params[:parent_id])
 
     if parent_task.date.to_date != @task_params[:date].to_date

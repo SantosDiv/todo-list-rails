@@ -54,4 +54,8 @@ class TaskPresenter
     @task.sub_tasks.map { |sub_task| TaskPresenter.new(task: sub_task) }
   end
 
+  def time
+    @task.date.strftime("%H:%Mhs")
+  end
+
 end
